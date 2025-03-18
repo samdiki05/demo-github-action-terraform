@@ -44,4 +44,4 @@ jobs:
         run: terraform apply -auto-approve -no-color -input=
        # Destroy Terraform changes
       - name: Terraform Destroy
-        run: terraform destroy
+        run: terraform destroy -auto-approve
