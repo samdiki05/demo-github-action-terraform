@@ -42,6 +42,7 @@ jobs:
       # Apply Terraform changes
       - name: Terraform Apply
         run: terraform apply -auto-approve -no-color -input=
+
        # Destroy Terraform changes
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy
