@@ -1,0 +1,57 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  terraform:
+    name: 'Terraform'
+    env:
+      # AWS Secrets
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEVOPS_ACCESSS_AKEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEVOPS_SECRET_ACCESS_KEY }}
+      
+    runs-on: ubuntu-latest
+    environment: production 
+    
+    steps:
+    # Checkout the repository to the GitHub Action runner
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    # Initialize a new or existing Terraform working directory by  creating initials filesi loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.7 # Updated terraform version to a more current version.
+        terraform_wrapper: false # added to prevent double wrapping.
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: '.'
+        args: ""
+
+    - name: Terraform Validate
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.7 # Updated terraform version to a more current version.
+        terraform_wrapper: false # added to prevent double wrapping.
+        tf_actions_subcommand: 'validate'
+        tf_actions_working_dir: '.'
+        args: ""
+
+    - name: Terraform Plan
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.7 # Updated terraform version to a more current version.
+        terraform_wrapper: false # added to prevent double wrapping.
+        tf_actions_subcommand: 'plan'
+        tf_actions_working_dir: '.'
+        args: "-no-color -input=false"
+
+    - name: Terraform Apply
+      uses: hashicorp/setup-terraform@v2
+      with:
+          terraform_version: 1.5.7 # Updated terraform version to a more current version.
+          terraform_wrapper: false # added to prevent double wrapping.
+          tf_actions_subcommand: 'apply'
+          tf_actions_working_dir: '.'
+          args: "-auto-approve -no-color -input=false"
