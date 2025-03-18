@@ -9,8 +9,8 @@ jobs:
     name: 'Terraform'
     env:
       # AWS Secrets
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_DEVOPS_ACCESSS_AKEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_DEVOPS_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_DEVOPS_ACCESSS_AKEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_DEVOPS_SECRET_ACCESS_KEY}}
 
     runs-on: ubuntu-latest
     environment: production
@@ -41,4 +41,7 @@ jobs:
 
       # Apply Terraform changes
       - name: Terraform Apply
-        run: terraform apply -auto-approve -no-color -input=false
+        run: terraform apply -auto-approve -no-color -input=
+       # Destroy Terraform changes
+      - name: Terraform Destroy
+        run: terraform destroy
